@@ -6,6 +6,7 @@ export default class List extends Component {
     super(props)
     this.state = {
       data: [],
+      ready: false,
     }
   }
   componentDidMount() {
@@ -13,7 +14,8 @@ export default class List extends Component {
     fetchData(page)
     .then(res => {
       this.setState({
-        data: res
+        data: res,
+        ready: true,
       })
     })
   }
@@ -21,9 +23,12 @@ export default class List extends Component {
     return (
       <ul>
         {
+          this.state.ready ?
           this.state.data.map(item =>
             <li key={item.id}>{item.text}</li>
           )
+          :
+          <h2>Loading.....</h2>
         }
       </ul>
     )
