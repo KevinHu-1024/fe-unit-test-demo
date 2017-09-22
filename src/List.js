@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import fetchData from './fetch'
 
 export default class List extends Component {
   constructor(props) {
@@ -11,13 +10,15 @@ export default class List extends Component {
   }
   componentDidMount() {
     const page = 1
-    fetchData(page)
-    .then(res => {
-      this.setState({
-        data: res,
-        ready: true,
-      })
-    })
+    if (this.props.fetchData) {
+      this.props.fetchData(page)
+        .then(res => {
+          this.setState({
+            data: res,
+            ready: true,
+          })
+        })
+    }
   }
   render() {
     return (
