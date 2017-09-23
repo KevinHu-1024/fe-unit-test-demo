@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import Button from './Button'
 
 describe('测试按钮', () => {
@@ -20,5 +20,12 @@ describe('测试按钮', () => {
   it('当Button有children时，children应该渲染出来', () => {
     const wrapper = shallow(<Button>按钮</Button>)
     expect(wrapper.contains('按钮')).toBeTruthy()
+  })
+  it('当传入处理函数，并且点击时，处理函数应以一个对象为参数调用，事件类型为click', () => {
+    const handler = jest.fn()
+    const wrapper = mount(<Button onClick={handler}></Button>)
+    wrapper.find('button').simulate('click')
+    expect(handler).toHaveBeenCalled()
+    expect(handler.mock.calls[0][0].type).toBe('click')
   })
 })
